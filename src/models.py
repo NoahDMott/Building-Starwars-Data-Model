@@ -8,23 +8,48 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
+class StarWarsBlog(Base):
+    __tablename__ = 'blog'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+    HomePage = Column(String, nullable=False)
+    CharacterInformationCard = Column(String, nullable=False)
+    
+class User(Base):
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    __tablename__ = 'User'
+    UserName = Column(String, nullable=False)
+    email= Column(String(50), nullable=False)
+    password = Column(String(20), nullable=False)
+    StarWarsBlog = relationship(StarWarsBlog)
+    
+class Favorite(Base):
+    id = Column(Integer, primary_key=True)
+    __tablename__ = 'Favorite'
+    FavoriteCharacter = Column(String, nullable=True)
+    FavoritePlant = Column(String, nullable=True)
+    User = relationship(User)
+
+class Character(Base):
+    id = Column(Integer, primary_key=True)
+    __tablename__ = 'Character'
+    CharacterName = Column(String, nullable=False)
+    CharacterPlanet = Column(String, nullable=False)
+    CharacterBio = Column(String(500), nullable=False)
+    StarWarsBlog = relationship(StarWarsBlog)
+
+class Planet(Base):
+    id = Column(Integer, primary_key=True)
+    __tablename__ = 'Planet'
+    PlanetName = Column(String, nullable=False)
+    PlanetCharacter = Column(String(100), nullable=False)
+    PlanetBio = Column(String(500), nullable=False)
+    planet = relationship(StarWarsBlog)
+
+
+
+
 
     def to_dict(self):
         return {}
